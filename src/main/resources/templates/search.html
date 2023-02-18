@@ -15,12 +15,25 @@
 
         <p>
             <span th:each="column : ${columns}">
-                <input
-                        type="radio"
-                        name="searchType"
-                        th:id="${column.key}"
-                        th:value="${column.key}"
-                        th:checked="${column.key == 'all'}"/>
+                <th:block th:if="${#strings.isEmpty(searchType)}">
+                    <input
+                            type="radio"
+                            name="searchType"
+                            th:id="${column.key}"
+                            th:value="${column.key}"
+                            th:checked="${column.key == 'all'}"/>
+                </th:block>
+
+                <th:block th:unless="${#strings.isEmpty(searchType)}">
+                    <input
+                            type="radio"
+                            name="searchType"
+                            th:id="${column.key}"
+                            th:value="${column.key}"
+                            th:checked="${column.key.equals(searchType)}"/>
+                </th:block>
+
+<!--                        th:checked="${column.key == 'all'}"/>-->
                 <label th:for="${column.key}" th:text="${column.value}"></label>
             </span>
 
@@ -37,6 +50,7 @@
     <hr />
 
     <!-- TODO #4 - Loop over the search results to display all job fields. -->
+    <div th:replace="list-jobs :: job-table"></div>
 
 </div>
 
